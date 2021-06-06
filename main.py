@@ -8,6 +8,14 @@ GOLDEN = "#DEDCC5"
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
+def save_password():
+  new_entry = f"{website_input.get()} | {username_input.get()} | {password_input.get()}\n"
+
+  with open("data.txt", "a") as data:
+    data.write(new_entry)
+    website_input.delete(0, END)
+    username_input.delete(0, END)
+    password_input.delete(0, END)
 
 # ---------------------------- UI SETUP ------------------------------- #
 window = Tk()
@@ -32,9 +40,11 @@ password_label.grid(column=0, row=3, sticky="e")
 # Entries
 website_input = Entry(width=35, highlightthickness=0, relief="flat", bg=GOLDEN)
 website_input.grid(column=1, row=1, columnspan=2)
+website_input.focus()
 
 username_input = Entry(width=35, highlightthickness=0, relief="flat", bg=GOLDEN)
 username_input.grid(column=1, row=2, columnspan=2)
+# username_input.insert(0, "email@domain.com")
 
 password_input = Entry(width=21, highlightthickness=0, relief="flat", bg=GOLDEN)
 password_input.grid(column=1, row=3)
@@ -43,7 +53,7 @@ password_input.grid(column=1, row=3)
 password_button = Button(text="Generate Password")
 password_button.grid(column=2, row=3)
 
-add_button = Button(text="Add", width=36)
+add_button = Button(text="Add", width=36, command=save_password)
 add_button.grid(column=1, row=4, columnspan=2)
 
 
