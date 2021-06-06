@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import messagebox
 
 FONT = ('Arial', 12, "bold")
 YELLOW = "#f7f5dd"
@@ -9,13 +10,21 @@ GOLDEN = "#DEDCC5"
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 def save_password():
-  new_entry = f"{website_input.get()} | {username_input.get()} | {password_input.get()}\n"
+  website = website_input.get()
+  username = username_input.get()
+  password = password_input.get()
 
-  with open("data.txt", "a") as data:
-    data.write(new_entry)
-    website_input.delete(0, END)
-    username_input.delete(0, END)
-    password_input.delete(0, END)
+  if len(website) == 0 or len(username) == 0 or len(password) == 0:
+    messagebox.showwarning(message="Please make sure you haven't left any field empty.")
+  else:
+    is_ok = messagebox.askokcancel(title=website, message=f"These are the details entered:\nUsername: {username}\nPassword: {password}\n Is this correct?")
+
+    if is_ok:
+      with open("data.txt", "a") as data:
+        data.write(f"{website} | {username} | {password}\n")
+        website_input.delete(0, END)
+        username_input.delete(0, END)
+        password_input.delete(0, END)
 
 # ---------------------------- UI SETUP ------------------------------- #
 window = Tk()
