@@ -41,19 +41,24 @@ def save_password():
   if len(website) == 0 or len(username) == 0 or len(password) == 0:
     messagebox.showwarning(message="Please make sure you haven't left any field empty.")
   else:
+    try:
       with open("data.json", "r") as data_file:
         # reading old data
         data = json.load(data_file)
+    except FileNotFoundError:
+      with open("data.json", "w") as data_file:
+        json.dump(new_data, data_file, indent=4)
+    else:  
         # updating old data with new data
         data.update(new_data)
 
-      with open("data.json", "w") as data_file:
-        # saving updated data
-        json.dump(data, data_file, indent=4)
-
-        website_input.delete(0, END)
-        username_input.delete(0, END)
-        password_input.delete(0, END)
+        with open("data.json", "w") as data_file:
+          # saving updated data
+          json.dump(data, data_file, indent=4)
+    finally:
+          website_input.delete(0, END)
+          username_input.delete(0, END)
+          password_input.delete(0, END)
 
 # ---------------------------- UI SETUP ------------------------------- #
 window = Tk()
